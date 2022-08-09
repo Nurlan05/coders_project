@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Slider view</title>
+
+</head>
+<body>
+
+{% for obj in slider_list %}
+    <div>
+        <h1> {{ forloop.counter }}.{{ obj.title  }}</h1>
+        <p> {{ obj.content | safe }} </p>
+    </div>
+<hr>
+{% endfor %}
+
+  <img src="{% static "apartment-md1.png"  %}" alt="">
+
+</html>

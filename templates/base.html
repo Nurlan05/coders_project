@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello world!</title>
+    <link rel="stylesheet" href="{% static "style.css"  %}">
+
+</head>
+<body>
+{% for obj in post_list %}
+    <div class="header">
+        {% if obj.image %}
+         <img src="{{ obj.image.url }}" width="200" height="200" alt="">
+        {%  endif %}
+        <h1> {{ forloop.counter }}.{{ obj.title  }}</h1>
+        <p> {{ obj.content | safe }} </p>
+        <p> {{ obj.create_time }} </p>
+    </div>
+<hr>
+{% endfor %}
+
+
+
+
+
+<hr>
+
+
+</body>
+</html>

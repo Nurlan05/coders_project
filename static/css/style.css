@@ -1,0 +1,25 @@
+.header {
+  color: green;
+  background: yellow;
+  height: 100px;
+  margin-bottom: 10px;
+}
+
+
+.main {
+  background: green;
+  color: white;
+  padding: 10px;
+  width: 1500px;
+}
+
+ul>li{
+  list-style-type: none;
+}
+
+.footer {
+  color: white;
+  background: blue;
+  height: 100px;
+  margin-bottom: 10px;
+}

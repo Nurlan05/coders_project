@@ -3,29 +3,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Hello world!</title>
-    <link rel="stylesheet" href="{% static "style.css"  %}">
+    {% block title %} <title>Hello world!</title> {% endblock %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?{% now 'U' %}">
+
 
 </head>
 <body>
-{% for obj in post_list %}
-    <div class="header">
-        {% if obj.image %}
-         <img src="{{ obj.image.url }}" width="200" height="200" alt="">
-        {%  endif %}
-        <h1> {{ forloop.counter }}.{{ obj.title  }}</h1>
-        <p> {{ obj.content | safe }} </p>
-        <p> {{ obj.create_time }} </p>
-    </div>
-<hr>
-{% endfor %}
+
+<div class="header">
+    <ul>
+        <li><a href="{% url  'post:index' %}">Home page</a></li>
+        <li><a href="{% url 'post:slider'  %}">slider</a></li>
+        <li>about</li>
+    </ul>
+</div>
+{% block body %}
 
 
+{% endblock %}
 
-
-
-<hr>
-
-
+<div class="footer">
+    <ul>
+        <li>main</li>
+        <li>news</li>
+        <li>product</li>
+    </ul>
+</div>
 </body>
 </html>

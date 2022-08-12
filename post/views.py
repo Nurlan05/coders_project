@@ -6,7 +6,7 @@ def index_view(request):
     context = {}
     context['post_list'] = Post.objects.filter(draft=True)
 
-    return render(request, 'base.html', context)
+    return render(request, 'home/home.html', context)
 
 
 def slider_view(request):
@@ -14,3 +14,10 @@ def slider_view(request):
     context['slider_list'] = Slider.objects.all()
 
     return render(request, 'slider/slider.html', context)
+
+def post_detail(request,slug):
+    context={}
+
+    context['obj']=Post.objects.get(slug=slug)
+
+    return render(request,'post/post_detail.html',context)

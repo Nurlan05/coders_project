@@ -5,7 +5,7 @@ from post.models import Post,Slider
 # Register your models here.
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ['title', 'create_time', 'draft']
+    list_display = ['title', 'create_time','slug' ,'draft']
     list_filter = ['title', 'draft']
     search_fields = ['title', 'content']
 

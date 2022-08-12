@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %} <title> This is home page! </title>  {% endblock %}
+{% block body %}
+
+{% for obj in post_list %}
+<div class="main">
+    {% if obj.image %}
+    <img src="{{ obj.image.url }}" width="200" height="200" alt="">
+    {% endif %}
+    <h1> {{ forloop.counter }}. <a target="_blank" href="post/{{ obj.slug }}">{{ obj.title }}</a></h1>
+    <p> {{ obj.create_time }} </p>
+</div>
+<hr>
+{% endfor %}
+
+
+<hr>
+{% endblock %}

@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #custom apps
     'post',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
@@ -121,3 +122,10 @@ else:
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+CKEDITOR_JQUERY_URL = os.path.join(STATIC_URL, 'jquery-3.2.1.min.js')
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full'
+    },
+}

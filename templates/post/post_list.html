@@ -1,7 +1,5 @@
-{% extends "base.html" %}
-{% block title %} <title> This is home page! </title>  {% endblock %}
+{% extends 'base.html' %}
 {% block body %}
-
     {% for obj in post_list %}
         <div class="main">
             {% if obj.image %}
@@ -14,7 +12,4 @@
         </div>
         <hr>
     {% endfor %}
-
-
-    <hr>
 {% endblock %}

@@ -1,3 +1,4 @@
+{% load crispy_forms_tags %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -9,12 +10,11 @@
 
 </head>
 <body>
-
 <div class="header">
     <ul>
         <li><a href="{% url  'post:index' %}">Home page</a></li>
-        <li><a href="{% url 'post:slider'  %}">slider</a></li>
-        <li>about</li>
+        <li><a href="{% url 'post:slider'  %}">Slider</a></li>
+        <li><a href="{% url 'post:post-list' %}">Post list</a></li>
     </ul>
 </div>
 {% block body %}

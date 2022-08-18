@@ -1,7 +1,5 @@
-{% extends "base.html" %}
-{% block title %} <title> This is home page! </title>  {% endblock %}
+{% extends 'base.html' %}
 {% block body %}
-
     {% for obj in post_list %}
         <div class="main">
             {% if obj.image %}
@@ -10,24 +8,10 @@
             {% endif %}
             <h1> {{ forloop.counter }}. <a target="_blank" href="{{ obj.get_absolute_url }}">{{ obj.title }}</a></h1>
             <p>{{ obj.content|safe|slice:":100" }}...</p>
-
+            <hr>
+            <p>{{ obj.category }}</p>
             <p> {{ obj.create_time }} </p>
         </div>
         <hr>
     {% endfor %}
-
-
-    <hr>
-
-    <hr>
-    <ul>
-        {% for obj in category_list %}
-            <li><a target="_blank" href="{{ obj.get_absolute_url }}">{{ obj.title }}</a></li>
-            <ul>
-                {% for x in obj.data.all %}
-                    <li><a target="_blank" href="{{ x.get_absolute_url }}">{{ x.title }}</a></li>
-                {% endfor %}
-            </ul>
-        {% endfor %}
-    </ul>
 {% endblock %}

@@ -7,6 +7,7 @@ from ckeditor.fields import RichTextField
 class Category(models.Model):
     title = models.CharField(max_length=1200, verbose_name="Category name")
     image = models.ImageField(verbose_name="Category image", upload_to="category", blank=True)
+    slug = models.SlugField(editable=False, verbose_name="Slug", null=True, unique=True)
 
     def __str__(self):
         return self.title
@@ -15,9 +16,17 @@ class Category(models.Model):
         verbose_name = "Category"
         verbose_name_plural = "Categories"
 
+    def save(self, *args, **kwargs):
+        self.slug = seo(self.title)
+        super(Category, self).save(*args, **kwargs)
+
+
+    def get_absolute_url(self):
+        return reverse('post:category_detail', kwargs={'slug': self.slug})
+
 
 class Post(models.Model):
-    category = models.ForeignKey(Category, related_name="category", verbose_name="Category", null=True,
+    category = models.ForeignKey(Category, related_name="data", verbose_name="Category", null=True,
                                  on_delete=models.CASCADE)
     title = models.CharField(max_length=1500, verbose_name="Post title", help_text="Burda xeberin basligi yazilir")
     content = RichTextField(verbose_name="Post content", blank=True)
@@ -38,7 +47,7 @@ class Post(models.Model):
         super(Post, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('post:detail_view', kwargs={'slug': self.slug})
+        return reverse('post:post_detail', kwargs={'slug': self.slug})
 
 
 class Slider(models.Model):

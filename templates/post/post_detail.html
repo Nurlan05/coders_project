@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load crispy_forms_field %}
+{% load crispy_forms_filters %}
 {% block title %} <title>{{ obj.title }} </title>  {% endblock %}
 {% block body %}
 
@@ -10,16 +10,34 @@
     <hr>
     <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form }}
+        {{ form   }}
+{##}
+{#        <textarea style="height: 100px" id="id_content" name="content"></textarea>#}
         <button type="submit">Submit</button>
 
     </form>
 
     <hr>
+    {% if galery_list %}
+    <h4>Galery</h4>
+    {% endif %}
+    {% for data in galery_list %}
+        <div class="galery">
+            <img width="200" height="100" src="{{ data.image.url }}" alt="{{ data.post.slug }}">
+        </div>
+    {% endfor %}
+
+
+
+
+    <hr>
+
+
+
 
     <h4>Comments</h4>
     {% for obj in comment_list %}
-    <p>{{ obj.content }}</p>
+        <p>{{ obj.content }} <b>{{ obj.id }}</b></p>
     {% endfor %}
 
 

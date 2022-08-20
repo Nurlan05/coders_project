@@ -1,12 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from post.models import Post, Slider, Category
+from post.models import Post, Slider, Category,Galery
 from post.forms import CommentForm
 from post.models import Comment
 
-
 def index_view(request):
+
     context = {}
-    context['post_list'] = Post.objects.filter(draft=True)[:2]
+
+    context['post_list'] = Post.objects.filter(draft=True)
     context['category_list'] = Category.objects.all()
 
     return render(request, 'home/home.html', context)
@@ -42,7 +43,8 @@ def post_detail(request, slug):
         context['form'] = form
 
     context['form']=form
-    context['comment_list']=Comment.objects.all().order_by('-id')
+    context['comment_list']=Comment.objects.filter(post=obj).order_by('-id')
+    context['galery_list']=Galery.objects.filter(post=obj).order_by('-id')
     return render(request, 'post/post_detail.html', context)
 
 

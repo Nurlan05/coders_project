@@ -10,7 +10,7 @@
     <hr>
     <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form   }}
+        {{ form | crispy  }}
 {##}
 {#        <textarea style="height: 100px" id="id_content" name="content"></textarea>#}
         <button type="submit">Submit</button>

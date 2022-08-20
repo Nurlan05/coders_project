@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %} <title> This is home page! </title>  {% endblock %}
 {% block body %}
-
+    {{ request.user.get_full_name }} {{ request.user.get_usertype_display }}
     {% for obj in post_list %}
         <div class="main">
             {% if obj.image %}
@@ -18,6 +18,10 @@
 
 
     <hr>
+
+    <select name="" id="">
+        <option value="{{ request.user.usertype }}">{{ request.user.get_usertype_display }}</option>
+    </select>
 
     <hr>
     <ul>

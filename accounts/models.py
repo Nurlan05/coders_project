@@ -6,12 +6,15 @@ from django.core import validators
 from django.utils.translation import ugettext_lazy as _
 from post.helper import seo
 USER_MODEL = settings.AUTH_USER_MODEL
+from accounts.options import USERTYPE
+
 
 class MyUser(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(_('username'), null=True, max_length=100, unique=False)
     first_name = models.CharField(_('first name'), max_length=255, blank=True, )
     last_name = models.CharField(_('last name'), max_length=255, blank=True)
     image=models.ImageField(_('Sekil elave et'),null=True)
+    usertype = models.IntegerField(verbose_name="Cins",choices=USERTYPE,null=True)
 
     email = models.EmailField(_('email address'), unique=True, max_length=255, blank=False)
 

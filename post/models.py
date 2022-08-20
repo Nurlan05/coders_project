@@ -60,3 +60,14 @@ class Slider(models.Model):
     class Meta:
         verbose_name = "Slayd"
         verbose_name_plural = "Slaydlar"
+class Comment(models.Model):
+    post=models.ForeignKey(Post,related_name="comment_post",verbose_name="Post",on_delete=models.CASCADE)
+    date=models.DateTimeField(auto_now_add=True,verbose_name="Date",null=True)
+    content=models.TextField(verbose_name="Comment")
+
+    def __str__(self):
+        return self.post.title + "-" + str( self.id)
+
+    class Meta:
+        verbose_name="Comment"
+        verbose_name_plural="Comments"

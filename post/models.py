@@ -3,6 +3,7 @@ from post.helper import seo
 from django.urls import reverse
 from ckeditor.fields import RichTextField
 
+from accounts.models import MyUser
 
 class Category(models.Model):
     title = models.CharField(max_length=1200, verbose_name="Category name")
@@ -26,6 +27,7 @@ class Category(models.Model):
 
 
 class Post(models.Model):
+    author=models.ForeignKey(MyUser,related_name="user",on_delete=models.CASCADE,null=True,verbose_name="User")
     category = models.ForeignKey(Category, related_name="data", verbose_name="Category", null=True,
                                  on_delete=models.CASCADE)
     title = models.CharField(max_length=1500, verbose_name="Post title", help_text="Burda xeberin basligi yazilir")

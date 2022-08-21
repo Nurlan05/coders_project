@@ -1,13 +1,22 @@
+from datetime import date, timedelta
+import datetime
+from django.utils import timezone
 from django.shortcuts import render, get_object_or_404, redirect
-from post.models import Post, Slider, Category,Galery
-from post.forms import CommentForm
+from post.models import Post, Slider, Category, Galery
+from post.forms import CommentForm, PostForm
 from post.models import Comment
+from django.contrib import messages
+
 
 def index_view(request):
-
     context = {}
 
-    context['post_list'] = Post.objects.filter(draft=True)
+    today = datetime.datetime.now()
+    context['today'] = today
+    around = date.today() - timedelta(days=4)
+    around_b = date.today() + timedelta(days=10)
+    # context['post_list'] = Post.objects.filter(create_time__gt=around, create_time__lt=around_b)
+    context['post_list'] = Post.objects.filter(draft=True).order_by('-id')
     context['category_list'] = Category.objects.all()
 
     return render(request, 'home/home.html', context)
@@ -37,14 +46,16 @@ def post_detail(request, slug):
             comment = form.save(commit=False)
             comment.post = obj
             comment.save()
+            messages.error(request, 'Sizin şərhiniz uğurla əlavə olundu!')
             return redirect(obj.get_absolute_url())
     else:
         form = CommentForm()
         context['form'] = form
-
-    context['form']=form
-    context['comment_list']=Comment.objects.filter(post=obj).order_by('-id')
-    context['galery_list']=Galery.objects.filter(post=obj).order_by('-id')
+    context['post_list'] = Post.objects.filter(category=obj.category).exclude(pk=obj.id)
+    context['form'] = form
+    context['comment_list'] = Comment.objects.filter(post=obj).order_by('-id')
+    context['comment_count'] = Comment.objects.filter(post=obj).order_by('-id').count()
+    context['galery_list'] = Galery.objects.filter(post=obj).order_by('-id')
     return render(request, 'post/post_detail.html', context)
 
 
@@ -54,3 +65,53 @@ def category_detail(request, slug):
     context['post_list'] = obj.data.all()
 
     return render(request, 'post/category.html', context)
+
+
+def post_create(request):
+    context = {}
+    if not request.user.is_authenticated:
+        return redirect('post:index')
+    if request.method == "POST":
+        form = PostForm(request.POST, request.FILES or None)
+        if form.is_valid():
+            data = form.save(commit=False)
+            data.draft = False
+            data.author = request.user
+            data.save()
+
+            messages.success(request, 'Sizin postunuz uğurla əlavə olundu!')
+            return redirect('post:post_create')
+
+
+    else:
+        form = PostForm()
+        context['form'] = form
+    context['form'] = form
+    return render(request, 'form/post_create.html', context)
+
+
+def post_update(request, slug):
+    context = {}
+    obj = get_object_or_404(Post, slug=slug)
+
+    if request.method == "POST":
+        form = PostForm(request.POST, request.FILES or None, instance=obj)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Sizin postunuz uğurla yeniləndi!')
+            return redirect(obj.get_absolute_url())
+        else:
+            context['form'] = form
+    context["form"] = PostForm(instance=obj)
+
+    return render(request,'form/post_create.html',context)
+
+def post_delete(request,slug):
+    obj=get_object_or_404(Post,slug=slug)
+
+    data=Post.objects.filter(slug=slug).last()
+    # data.delete()
+    data.draft=False
+    data.save()
+    return redirect(obj.get_absolute_url())

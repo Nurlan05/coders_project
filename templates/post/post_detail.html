@@ -4,22 +4,75 @@
 {% block body %}
 
     <img src="{{ obj.image.url }}" width="200" height="200" alt="{{ obj.title }}">
-    <h1>{{ obj.title }}</h1>
+    <h1>{{ obj.title }} | <a class="btn btn-primary" style="font-size: 20px" href="{% url 'post:post_update' obj.slug %} ">Düzəliş et</a>
+        <form method="post" action="{% url 'post:post_delete' obj.slug %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Sil</button>
+        </form>
+    </h1>
     <p> {{ obj.content|safe }} </p>
 
     <hr>
-    <form action="" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form | crispy  }}
-{##}
-{#        <textarea style="height: 100px" id="id_content" name="content"></textarea>#}
-        <button type="submit">Submit</button>
 
-    </form>
+    <div class="row">
+            {% for obj in post_list %}
+
+                <div class="col-md-4">
+                    <div class="card" style="">
+                        <img src="{{ obj.image.url }}" class="card-img-top" alt="{{ obj.title }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ obj.title }}</h5>
+                            <p class="card-text">{{ obj.content|safe|slice:":250" }}</p>
+                            <a href="{{ obj.get_absolute_url }}" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+    </div>
+
+
+
+    <div class="container">
+        <div style="text-align: center !important;" class="col-md-6">
+
+            {% if messages %}
+                {% for message in messages %}
+                    {% if message.tags == "success" %}
+                        <div class="alert alert-success" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+            {% endif %}
+        </div>
+    </div>
+
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form | crispy }}
+                    <button type="submit">Submit</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
 
     <hr>
+
+
+
+
     {% if galery_list %}
-    <h4>Galery</h4>
+        <h4>Galery</h4>
     {% endif %}
     {% for data in galery_list %}
         <div class="galery">
@@ -35,7 +88,7 @@
 
 
 
-    <h4>Comments</h4>
+    <h4>Comments({{ comment_count }})</h4>
     {% for obj in comment_list %}
         <p>{{ obj.content }} <b>{{ obj.id }}</b></p>
     {% endfor %}

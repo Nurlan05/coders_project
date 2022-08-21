@@ -1,6 +1,6 @@
 from django.contrib import admin
 from post.models import Post, Slider, Category, Comment, Galery
-
+from django.contrib.auth import get_user_model
 
 class GaleryItems(admin.TabularInline):
     model = Galery

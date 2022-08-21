@@ -30,6 +30,9 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
 
     objects = UserManager()
 
+
+
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
 
@@ -49,3 +52,6 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
     def get_full_name(self):
         full_name = '%s %s' % (self.first_name, self.last_name)
         return full_name.strip()
+
+    def __str__(self):
+        return self.get_full_name()

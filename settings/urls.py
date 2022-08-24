@@ -14,20 +14,24 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path,include
+from django.conf.urls.i18n import i18n_patterns
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('dashboard/', admin.site.urls,name="admin"),
-    path('', include('post.urls')),
+    path('dashboard/', admin.site.urls, name="admin"),
 
 ]
+urlpatterns += i18n_patterns(
+
+    path('', include('post.urls')),
+)
 
 if settings.DEBUG:
-    urlpatterns += static (settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    urlpatterns += static (settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-urlpatterns += static (settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 admin.site.site_header = "Coders sayt administrasiyasi"
 admin.site.site_title = "Coders sayt administrasiyasi"

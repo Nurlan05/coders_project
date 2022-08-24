@@ -14,9 +14,9 @@ def index_view(request):
     today = datetime.datetime.now()
     context['today'] = today
     around = date.today() - timedelta(days=4)
-    around_b = date.today() + timedelta(days=10)
-    # context['post_list'] = Post.objects.filter(create_time__gt=around, create_time__lt=around_b)
-    context['post_list'] = Post.objects.filter(draft=True).order_by('-id')
+    around_b = date.today() + timedelta(days=3)
+    context['post_list'] = Post.objects.filter(draft=True,create_time__gt=around, create_time__lt=around_b).order_by('-create_time')
+    # context['post_list'] = Post.objects.filter(draft=True).order_by('-id')
     context['category_list'] = Category.objects.all()
 
     return render(request, 'home/home.html', context)
@@ -51,7 +51,7 @@ def post_detail(request, slug):
     else:
         form = CommentForm()
         context['form'] = form
-    context['post_list'] = Post.objects.filter(category=obj.category).exclude(pk=obj.id)
+    context['post_list'] = Post.objects.filter(category=obj.category).exclude(pk=obj.id).order_by('-id')
     context['form'] = form
     context['comment_list'] = Comment.objects.filter(post=obj).order_by('-id')
     context['comment_count'] = Comment.objects.filter(post=obj).order_by('-id').count()
@@ -92,6 +92,8 @@ def post_create(request):
 
 def post_update(request, slug):
     context = {}
+    if not request.user.is_authenticated:
+        return redirect("post:index")
     obj = get_object_or_404(Post, slug=slug)
 
     if request.method == "POST":
@@ -105,13 +107,16 @@ def post_update(request, slug):
             context['form'] = form
     context["form"] = PostForm(instance=obj)
 
-    return render(request,'form/post_create.html',context)
+    return render(request, 'form/post_create.html', context)
 
-def post_delete(request,slug):
-    obj=get_object_or_404(Post,slug=slug)
 
-    data=Post.objects.filter(slug=slug).last()
+def post_delete(request, slug):
+    if not request.user.is_authenticated:
+        return redirect("post:index")
+    obj = get_object_or_404(Post, slug=slug)
+
+    data = Post.objects.filter(slug=slug).last()
     # data.delete()
-    data.draft=False
+    data.draft = False
     data.save()
     return redirect(obj.get_absolute_url())

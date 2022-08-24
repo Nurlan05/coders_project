@@ -23,3 +23,20 @@ ul>li{
   height: 100px;
   margin-bottom: 10px;
 }
+.top_menu {
+  background: #5cff00;
+}
+
+.lang_menu {
+  display: inline-flex;
+}
+.langcode {
+  padding: 0 5px;
+}
+.langcode a{
+    text-transform: uppercase !important;
+}
+.active a{
+  color:red !important;
+  text-transform: uppercase !important;
+}

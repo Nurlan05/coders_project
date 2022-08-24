@@ -42,11 +42,14 @@ INSTALLED_APPS = [
     'accounts',
     'ckeditor',
     'crispy_forms',
+    'modeltranslation',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'settings.middleware.force_default_middleware.force_default_language_middleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -105,7 +108,17 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'az'
 LANGUAGE_CODE = 'az'
+LANGUAGES = (
+    ('az', 'Azərbaycan'),
+    ('en', 'İngilis'),
+    ('tr', 'Turkce')
+)
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale')
+]
+
 
 TIME_ZONE = 'Asia/Baku'
 

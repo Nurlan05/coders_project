@@ -1,33 +1,37 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% load crispy_forms_filters %}
 {% block title %} <title>{{ obj.title }} </title>  {% endblock %}
 {% block body %}
 
     <img src="{{ obj.image.url }}" width="200" height="200" alt="{{ obj.title }}">
-    <h1>{{ obj.title }} | <a class="btn btn-primary" style="font-size: 20px" href="{% url 'post:post_update' obj.slug %} ">Düzəliş et</a>
-        <form method="post" action="{% url 'post:post_delete' obj.slug %}">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-danger">Sil</button>
-        </form>
+    <h1>{{ obj.title }}
+        {% if request.user.is_superuser %}
+            |<a class="btn btn-primary" style="font-size: 20px" href="{% url 'post:post_update' obj.slug %} ">{% trans 'Düzəliş et' %}</a>
+            <form method="post" action="{% url 'post:post_delete' obj.slug %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">{% trans 'Sil' %}</button>
+            </form>
+        {% endif %}
     </h1>
     <p> {{ obj.content|safe }} </p>
 
     <hr>
 
     <div class="row">
-            {% for obj in post_list %}
+        {% for obj in post_list %}
 
-                <div class="col-md-4">
-                    <div class="card" style="">
-                        <img src="{{ obj.image.url }}" class="card-img-top" alt="{{ obj.title }}">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ obj.title }}</h5>
-                            <p class="card-text">{{ obj.content|safe|slice:":250" }}</p>
-                            <a href="{{ obj.get_absolute_url }}" class="btn btn-primary">Go somewhere</a>
-                        </div>
+            <div class="col-md-4">
+                <div class="card" style="">
+                    <img src="{{ obj.image.url }}" class="card-img-top" alt="{{ obj.title }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ obj.title }}</h5>
+                        <p class="card-text">{{ obj.content|safe|slice:":250" }}</p>
+                        <a href="{{ obj.get_absolute_url }}" class="btn btn-primary">{% trans 'Go somewhere' %}</a>
                     </div>
                 </div>
-            {% endfor %}
+            </div>
+        {% endfor %}
     </div>
 
 

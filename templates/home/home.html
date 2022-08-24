@@ -11,7 +11,7 @@
             <h1> {{ forloop.counter }}. <a target="_blank" href="{{ obj.get_absolute_url }}">{{ obj.title }}</a></h1>
             <p>{{ obj.content|safe|slice:":100" }}...</p>
 
-            <p> {{ obj.create_time }} </p>
+            <p> {{ obj.create_time|date:"j-n-y"}} </p>
         </div>
         <hr>
     {% endfor %}

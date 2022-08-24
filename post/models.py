@@ -2,11 +2,11 @@ from django.db import models
 from post.helper import seo
 from django.urls import reverse
 from ckeditor.fields import RichTextField
-
+from django.utils.translation import ugettext_lazy as _
 from accounts.models import MyUser
 
 class Category(models.Model):
-    title = models.CharField(max_length=1200, verbose_name="Category name")
+    title = models.CharField(max_length=1200, verbose_name=_("Category name"))
     image = models.ImageField(verbose_name="Category image", upload_to="category", blank=True)
     slug = models.SlugField(editable=False, verbose_name="Slug", null=True, unique=True)
 

@@ -1,0 +1,8 @@
+{% load i18n %}
+<div class="header">
+    <ul>
+        <li><a href="{% url  'post:index' %}">{% trans 'Home page' %}</a></li>
+        <li><a href="{% url 'post:slider' %}">{% trans 'Slider' %}</a></li>
+        <li><a href="{% url 'post:post-list' %}">{% trans 'Post list' %}</a></li>
+    </ul>
+</div>

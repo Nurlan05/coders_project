@@ -1,13 +1,6 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Slider view</title>
-
-</head>
-<body>
-
+{% block body %}
 {% for obj in slider_list %}
     <div>
         <h1> {{ forloop.counter }}.{{ obj.title  }}</h1>
@@ -17,5 +10,4 @@
 {% endfor %}
 
   <img src="{% static "apartment-md1.png"  %}" alt="">
-
-</html>
+{% endblock %}

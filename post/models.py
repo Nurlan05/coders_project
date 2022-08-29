@@ -90,3 +90,46 @@ class Comment(models.Model):
     class Meta:
         verbose_name = "Comment"
         verbose_name_plural = "Comments"
+
+
+class Settings(models.Model):
+    about_text = models.CharField(max_length=1500, verbose_name="Sayt haqqında(SEO mətni)")
+    meta_keywords = models.CharField(max_length=1500, verbose_name="Meta Keywords", null=True, blank=True)
+    site_title = models.CharField(max_length=1500, verbose_name="Saytın başlığı")
+    email = models.CharField(max_length=1500, verbose_name="Email", null=True)
+    number = models.CharField(max_length=1500, verbose_name="Nömrə", null=True)
+    adress = models.CharField(max_length=1500, verbose_name="Ünvan", null=True)
+    g_adress = models.CharField(max_length=1500, verbose_name="Google Map linki", null=True,blank=True)
+    logo = models.FileField(verbose_name="Qara logo(163x38)", blank=True)
+    dark_logo = models.FileField(verbose_name="Ağ logo(163x38)", blank=True, null=True)
+    favicon = models.FileField(verbose_name="favicon(32x32)", blank=True, null=True)
+
+    proloader_logo = models.FileField(verbose_name="Preloader logo(163x38)",help_text="Sayt açılanda yükənən logo", blank=True, null=True)
+    footer_logo = models.FileField(verbose_name="Footer logo(163x38)",help_text="Saytın aşağısındakı logo", blank=True, null=True)
+    facebook = models.CharField(max_length=1500, verbose_name="Facebook", blank=True)
+    instagram = models.CharField(max_length=1500, verbose_name="İnstagram", blank=True)
+    linkedin = models.CharField(max_length=1500, verbose_name="Linkedin", blank=True)
+    youtube = models.CharField(max_length=1500, verbose_name="Youtube", blank=True)
+    medium = models.CharField(max_length=1500, verbose_name="Medium", blank=True)
+    google_business = models.CharField(max_length=1500, verbose_name="Google Business", blank=True, null=True)
+    twitter = models.CharField(max_length=1500, verbose_name="Twitter", null=True, blank=True)
+    slug = models.SlugField(editable=False, verbose_name="Slug")
+    c_meta_title = models.CharField(max_length=1500, verbose_name="Əlaqə Meta title", null=True, blank=False)
+    c_meta_keywords = models.CharField(max_length=1500, verbose_name="Əlaqə Meta keywords", null=True, blank=True)
+    c_meta_description = models.TextField(max_length=160, verbose_name="Əlaqə Meta description", null=True,
+                                          blank=False, help_text="Meta descriptionda max. 150 hərf ola bilər!")
+    n_meta_title = models.CharField(max_length=1500, verbose_name="Xəbər Meta title", null=True, blank=False)
+    n_meta_description = models.TextField(max_length=160, verbose_name="Xəbər Meta description", null=True,
+                                          blank=False, help_text="Meta descriptionda max. 150 hərf ola bilər!")
+
+    def __str__(self):
+        return ('%s') % (self.site_title)
+
+    class Meta:
+        verbose_name = "Tənzimləmə"
+        verbose_name_plural = "Tənzimləmələr"
+        ordering = ['-id']
+
+    def save(self, *args, **kwargs):
+        self.slug = seo(self.site_title)
+        super(Settings, self).save(*args, **kwargs)

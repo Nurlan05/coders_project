@@ -6,6 +6,7 @@ from post.models import Post, Slider, Category, Galery
 from post.forms import CommentForm, PostForm
 from post.models import Comment
 from django.contrib import messages
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def index_view(request):
@@ -15,9 +16,9 @@ def index_view(request):
     context['today'] = today
     around = date.today() - timedelta(days=4)
     around_b = date.today() + timedelta(days=3)
-    context['post_list'] = Post.objects.filter(draft=True,create_time__gt=around, create_time__lt=around_b).order_by('-create_time')
+    context['post_list'] = Post.objects.filter(draft=True, create_time__gt=around, create_time__lt=around_b).order_by(
+        '-create_time')
     # context['post_list'] = Post.objects.filter(draft=True).order_by('-id')
-    context['category_list'] = Category.objects.all()
 
     return render(request, 'home/home.html', context)
 
@@ -31,7 +32,23 @@ def slider_view(request):
 
 def post_list_view(request):
     context = {}
-    context['post_list'] = Post.objects.filter(draft=True)
+    post_list = Post.objects.filter(draft=True)
+    page = request.GET.get('page')
+    paginator = Paginator(post_list, 2)
+
+    try:
+        post_list=paginator.page(page)
+
+    except PageNotAnInteger:
+        post_list= paginator.page(1)
+    except EmptyPage:
+
+        post_list=paginator.page(paginator.num_pages)
+
+
+
+    context['posts'] =post_list
+
     return render(request, 'post/post_list.html', context)
 
 

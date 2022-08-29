@@ -26,7 +26,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-AUTH_USER_MODEL="accounts.MyUser"
+AUTH_USER_MODEL = "accounts.MyUser"
 
 # Application definition
 
@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #custom apps
+    # custom apps
     'post',
     'accounts',
     'ckeditor',
@@ -62,7 +62,7 @@ ROOT_URLCONF = 'settings.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -70,6 +70,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'post.context_processors.extras',
             ],
         },
     },
@@ -119,7 +120,6 @@ LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'locale')
 ]
 
-
 TIME_ZONE = 'Asia/Baku'
 
 USE_I18N = True
@@ -147,3 +147,15 @@ CKEDITOR_CONFIGS = {
         'toolbar': 'full'
     },
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+
+DEFAULT_FROM_EMAIL = 'verify@buqelemun.com'
+SERVER_EMAIL = 'verify@buqelemun.com'
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_HOST_USER = 'verify@buqelemun.com'
+EMAIL_HOST_PASSWORD = '@@codersaze@@05'
+EMAIL_PORT = 465

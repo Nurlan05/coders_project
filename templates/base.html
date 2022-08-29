@@ -13,6 +13,7 @@
           integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}?{% now 'U' %}">
+    <script src="https://kit.fontawesome.com/538e7d1465.js" crossorigin="anonymous"></script>
 
 
 </head>
@@ -20,10 +21,21 @@
 <div class="top_menu">
     <ul class="lang_menu">
         {% for lang in LANGUAGES %}
-        <li class="langcode {% if lang.0 == LANGUAGE_CODE %} active {% endif %}"><a href="/{{ lang.0 }}/{{ request.get_full_path|slice:"4:" }}">{{ lang.0 }}</a></li>
+            <li class="langcode {% if lang.0 == LANGUAGE_CODE %} active {% endif %}"><a
+                    href="/{{ lang.0 }}/{{ request.get_full_path|slice:"4:" }}">{{ lang.0 }}</a></li>
         {% endfor %}
 
     </ul>
+    <div class="social" style="background-color: blue;color: white;font-size: 25px;">
+        {% for obj in settings_list %}
+            {% if obj.facebook %}
+                <a target="_blank" href="{{ obj.facebook }}"> <i class="fab fa-facebook" aria-hidden="true"></i></a>
+            {% endif %}
+            {% if obj.instagram %}
+            <a target="_blank" href="{{ obj.instagram }}"> <i class="fab fa-instagram" aria-hidden="true"></i></a>
+            {% endif %}
+        {% endfor %}
+    </div>
 </div>
 
 {% include 'include/headermenu.html' %}
@@ -32,7 +44,17 @@
 
 {% endblock %}
 
-
+<hr>
+<ul>
+    {% for obj in category_list %}
+        <li><a target="_blank" href="{{ obj.get_absolute_url }}">{{ obj.title }}</a></li>
+        <ul>
+            {% for x in obj.data.all %}
+                <li><a target="_blank" href="{{ x.get_absolute_url }}">{{ x.title }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+</ul>
 
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"

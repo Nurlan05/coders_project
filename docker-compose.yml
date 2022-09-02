@@ -19,7 +19,7 @@ services:
     restart: "always"
     env_file: .env
     environment:
-      - VIRTUAL_HOST=167.235.239.49
+      - VIRTUAL_HOST=167.235.239.49,coders.innovia.az
       - VIRTUAL_PORT=8000
       - TIMEOUT=300
       - HTTP_PORT=8000

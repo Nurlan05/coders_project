@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path,include
 from post.views import index_view, slider_view,post_detail,post_list_view,category_detail,post_create,post_update,post_delete
 
 app_name="post"

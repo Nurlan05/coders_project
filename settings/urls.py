@@ -26,6 +26,7 @@ urlpatterns = [
 urlpatterns += i18n_patterns(
 
     path('', include('post.urls')),
+    path('',include('accounts.urls',namespace='accounts')),
 )
 
 if settings.DEBUG:

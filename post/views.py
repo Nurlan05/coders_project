@@ -14,8 +14,8 @@ def index_view(request):
 
     today = datetime.datetime.now()
     context['today'] = today
-    around = date.today() - timedelta(days=4)
-    around_b = date.today() + timedelta(days=3)
+    around = date.today() - timedelta(days=15)
+    around_b = date.today() + timedelta(days=25)
     context['post_list'] = Post.objects.filter(draft=True, create_time__gt=around, create_time__lt=around_b).order_by(
         '-create_time')
     # context['post_list'] = Post.objects.filter(draft=True).order_by('-id')

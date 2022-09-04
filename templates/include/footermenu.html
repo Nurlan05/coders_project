@@ -1,0 +1,11 @@
+<hr>
+<ul>
+    {% for obj in category_list %}
+        <li><a target="_blank" href="{{ obj.get_absolute_url }}">{{ obj.title }}</a></li>
+        <ul>
+            {% for x in obj.data.all %}
+                <li><a target="_blank" href="{{ x.get_absolute_url }}">{{ x.title }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+</ul>

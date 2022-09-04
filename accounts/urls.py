@@ -11,6 +11,6 @@ urlpatterns = [
     # path(r'^user-list/$',user_list_view,name="user_list_view"),
     # path(r'^user/(?P<slug>.*)/$', user_update, name='user_update'),
     path('logout/',logout_view,name='logout'),
-    path('activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/',
+    path('^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})$',
         activate, name='activate'),
 ]

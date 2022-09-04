@@ -3,7 +3,7 @@
     {% for obj in posts %}
         <div class="main">
             {% if obj.image %}
-                <a target="_blank" href="{{ obj.get_absolute_url }}"> <img src="{{ obj.image.url }}" width="200"
+                <a target="_blank" href="{{ obj.get_absolute_url }}"> <img src="{{ obj.image }}" width="200"
                                                                            height="200" alt=""></a>
             {% endif %}
             <h1> {{ forloop.counter }}. <a target="_blank" href="{{ obj.get_absolute_url }}">{{ obj.title }}</a></h1>

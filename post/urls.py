@@ -1,10 +1,11 @@
 from django.urls import path,include
-from post.views import index_view, slider_view,post_detail,post_list_view,category_detail,post_create,post_update,post_delete
+from post.views import view_api,index_view, slider_view,post_detail,post_list_view,category_detail,post_create,post_update,post_delete
 
 app_name="post"
 
 urlpatterns = [
     path('', index_view, name="index"),
+    path('api/post-list', view_api, name="view_api"),
     path('slaydlar/', slider_view, name="slider"),
     path('post-list/',post_list_view,name="post-list"),
     path('post/create/', post_create, name="post_create"),

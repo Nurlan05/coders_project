@@ -91,6 +91,15 @@ class Comment(models.Model):
         verbose_name = "Comment"
         verbose_name_plural = "Comments"
 
+class PostTrue(models.Model):
+    post=models.ForeignKey(Post,related_name="truepost",on_delete=models.CASCADE,verbose_name=_('Post'))
+    title=models.CharField(max_length=1200,verbose_name=_("Title"))
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = "Post True"
+        verbose_name_plural = "Post True"
 
 class Settings(models.Model):
     about_text = models.CharField(max_length=1500, verbose_name="Sayt haqqında(SEO mətni)")

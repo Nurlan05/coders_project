@@ -1,12 +1,16 @@
 from datetime import date, timedelta
 import datetime
+
+import requests as requests
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404, redirect
-from post.models import Post, Slider, Category, Galery
+from post.models import Post, Slider, Category, Galery,Comment,PostTrue
 from post.forms import CommentForm, PostForm
-from post.models import Comment
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from post.serializers import PostSerializer
 
 
 def index_view(request):
@@ -32,23 +36,24 @@ def slider_view(request):
 
 def post_list_view(request):
     context = {}
-    post_list = Post.objects.filter(draft=True)
-    page = request.GET.get('page')
-    paginator = Paginator(post_list, 2)
+    # post_list = Post.objects.filter(draft=True)
+    # page = request.GET.get('page')
+    # paginator = Paginator(post_list, 2)
+    #
+    # try:
+    #     post_list=paginator.page(page)
+    #
+    # except PageNotAnInteger:
+    #     post_list= paginator.page(1)
+    # except EmptyPage:
+    #
+    #     post_list=paginator.page(paginator.num_pages)
 
-    try:
-        post_list=paginator.page(page)
+    #
+    # context['posts'] =post_list
 
-    except PageNotAnInteger:
-        post_list= paginator.page(1)
-    except EmptyPage:
-
-        post_list=paginator.page(paginator.num_pages)
-
-
-
-    context['posts'] =post_list
-
+    post_list = requests.get('http://localhost:8000/api/post-list').json()
+    context['posts'] = post_list
     return render(request, 'post/post_list.html', context)
 
 
@@ -92,9 +97,11 @@ def post_create(request):
         form = PostForm(request.POST, request.FILES or None)
         if form.is_valid():
             data = form.save(commit=False)
-            data.draft = False
             data.author = request.user
             data.save()
+            draft = form.cleaned_data.get('draft')
+            if draft == True:
+                PostTrue.objects.create(post=data,title=form.cleaned_data.get('title'))
 
             messages.success(request, 'Sizin postunuz uğurla əlavə olundu!')
             return redirect('post:post_create')
@@ -137,3 +144,10 @@ def post_delete(request, slug):
     data.draft = False
     data.save()
     return redirect(obj.get_absolute_url())
+
+
+@api_view(['GET'])
+def view_api(request):
+    news = Post.objects.all()
+    serializer = PostSerializer(news, many=True)
+    return Response(serializer.data)

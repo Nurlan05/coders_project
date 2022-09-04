@@ -1,5 +1,5 @@
 from django.contrib import admin
-from post.models import Post, Slider, Category, Comment, Galery, Settings
+from post.models import Post, Slider, Category, Comment, Galery, Settings,PostTrue
 from django.contrib.auth import get_user_model
 from django.contrib.sites.shortcuts import get_current_site
 from post.send_mail import send_subscriber_mail
@@ -47,7 +47,7 @@ admin.site.register(Post, PostAdmin)
 
 admin.site.register(Slider)
 
-
+admin.site.register(PostTrue)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ['title', 'slug']
     exclude = ['title', ]

@@ -34,3 +34,55 @@ serverde
     docker ps -a (containerlerin veziyyetine baxmaq ucundur)
 15.docker exec -it django bash (docker exec -it container_name(postgress,redis,django) bash) containerlere qosulma ucundur
 16.source /venv/bin/activate
+
+
+backupdata____
+
+
+###serverde postgres dump etmek
+    
+    pg_dumpall -c -U postgres > dump_data.sql
+
+### file compress(tar.gz) etmek ucun
+
+    tar -cvzf media.tar.gz media/
+
+
+###localdan servere sql kocurmek ucun(sudo su - postgres (pwd ile yolu yoxlamaq))
+
+    scp /home/nurlan/Documents/Projects_with_team/Team_Backend_projects/database_backup/nayora_last/dump_data.sql   roo@207.180.196.65:/home/nurlan/nayora
+	scp /home/nurlan/Documents/Projects_with_team/Team_Backend_projects/database_backup/nayora/nayora_data.sql  chmod -R 777 /var/lib/postgresql
+
+### serverden locala etmek ucun sadece yerlerin deyishmek lazimdi
+    
+    scp root@167.235.239.49:/var/lib/postgresql/dump_data.sql /home/nurlan/Documents/Projects_with_team/Team_Backend_projects/database_backup/nayora
+
+###serverde postgrese sql yuklemek ucun
+    
+    cat dump_data.sql | psql -U postgres
+
+
+###localdan servere file kocurmek ucun(pwd ile yolu yoxlamaq)
+
+    scp /home/nurlan/Documents/Projects_with_team/Team_Backend_projects/database_backup/coders_project/dump_12-07-2022_13_16_34.sql  nurlan@167.235.239.49:/home/nurlan/coders_project
+
+###serverden locala file kocurmek ucun(pwd ile yolu yoxlamaq)
+
+    scp nurlan@167.235.239.49:/home/nurlan/coders_project/media.tar.gz  /home/nurlan/Documents/Projects_with_team/Team_Backend_projects/database_backup/coders
+
+### tar.gz extract etmek ucun
+
+    tar --extract --file media.tar.gz
+    
+#####################################################################################################################
+docker sql backup
+
+# Back up database
+docker exec -t your-db-container pg_dumpall -c -U postgres > dump_`date +%d-%m-%Y"_"%H_%M_%S`.sql
+
+# Restore database from backup
+cat your_dump.sql | docker exec -i your-db-container psql -U postgres 
+
+
+##language makessages
+ ./manage.py makemessages -l en -i venv

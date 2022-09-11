@@ -13,7 +13,7 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(_('username'), null=True, max_length=100, unique=False)
     first_name = models.CharField(_('first name'), max_length=255, blank=True, )
     last_name = models.CharField(_('last name'), max_length=255, blank=True)
-    image=models.ImageField(_('Sekil elave et'),null=True)
+    image=models.ImageField(_('Sekil elave et'),null=True,blank=True)
     usertype = models.IntegerField(verbose_name="Cins",choices=USERTYPE,null=True)
 
     email = models.EmailField(_('email address'), unique=True, max_length=255, blank=False)
@@ -55,3 +55,12 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.get_full_name()
+    
+    
+    def get_avatar(self):
+        if self.image:
+            return self.image.url
+        elif self.usertype == 1:
+            return "/static/images/m-student.png"
+        elif self.usertype == 2:
+            return "/static/images/w-student.png"

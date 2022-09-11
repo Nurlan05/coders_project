@@ -148,6 +148,6 @@ def post_delete(request, slug):
 
 @api_view(['GET'])
 def view_api(request):
-    news = Post.objects.all()
+    news = Post.objects.filter(draft=True)
     serializer = PostSerializer(news, many=True)
     return Response(serializer.data)

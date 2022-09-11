@@ -1,10 +1,10 @@
 .header {
   color: green;
   background: yellow;
-  height: 100px;
+  height: 130px;
   margin-bottom: 10px;
+  padding-top: 5px;
 }
-
 
 .main {
   background: green;
